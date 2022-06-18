@@ -262,7 +262,7 @@ else "jump SELF loopBreak"
 
 label loopBreak
 unfix 2
-variable last equal floor(40/dt)
+variable last equal floor(50/dt)
 #最後流すのを40psにしてる意味は？？
 #
 
