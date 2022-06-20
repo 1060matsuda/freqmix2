@@ -201,8 +201,17 @@ variable omega2 equal 2.0*PI/${T2}
 #variable c equal 2.0*PI/$T*$z*$y
 #variable myx0 atom x
 #variable myx atom ${myx0} + $A*sin(${omega}*time)
+
+###NORMAL MIX SETTING###
 variable myx equal $A*sin(${omega1}*time)+$A*sin(${omega2}*time)
 variable myv equal $A*cos(${omega1}*time)+$A*cos(${omega2}*time)  
+###
+
+###500GHz single test###
+#variable myx equal $A*sin(${omega1}*time)
+#variable myv equal $A*cos(${omega1}*time)  
+###
+
 
 #the extra output file below should be processed by using OVITO
 ###正弦波を導入する。同位相なら$A,逆位相なら$B
