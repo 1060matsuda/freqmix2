@@ -21,7 +21,7 @@ num =  10 # determins the size of the plane 100
 N_Y = num
 N_Z = num
 
-N_BUF = 2401
+N_BUF = 24001
 #The cell length before(excluding) the buffer layer
 N_X =  int(N_BUF*2/3)
 
