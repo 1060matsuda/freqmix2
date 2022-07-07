@@ -125,11 +125,12 @@ variable initialSteps equal ${rescaleSteps}+${relaxationSteps}
 ##############################################
 
 
+compute xMax all reduce max x #angstrom
+
 thermo 1
-#thermo_style custom time v_sox v_dex temp vol etotal v_FIG
+thermo_style custom step time temp pxx pxy etotal c_xMax
 
-fix extra all print 1 "$i ${u1} ${u2} ${u3} ${u4} ${u5} ${u6} ${u7} ${u8} ${u9} ${u10} ${u11} ${u12} ${u13} ${u14} ${u15} ${u16} ${u17} ${u18} ${u19} ${u20} ${u21} ${u22} ${u23} ${u24} ${u25} ${u26} ${u27} ${u28} ${u29} ${u30} ${u31}" file outp_1.txt
-
+fix extra all print 1 "$i ${u1} ${u2} ${u3} ${u4} ${u5} ${u6} ${u7} ${u8} ${u9} ${u10} ${u11} ${u12} ${u13} ${u14} ${u15} ${u16} ${u17} ${u18} ${u19} ${u20} ${u21} ${u22} ${u23} ${u24} ${u25} ${u26} ${u27} ${u28} ${u29} ${u30} ${u31}" file outp.txt
 #minimize 1.0e-18 1.0e-18 100000 100000
 #fix npt1 all npt temp ${npt_temp} ${npt_temp} 1 iso ${atmos} ${atmos} 1
 #velocity all create ${npt_temp} 12345 dist gaussian
@@ -215,11 +216,13 @@ variable myx equal $A*sin(${omega1}*time)
 variable myv equal $A*cos(${omega1}*time)  
 ###
 
+
+### SETTEINGS OF SIMULATION DURATION (TIMESTEPS) ###
 variable waveVel equal 55 #You must define wave velocity as angstrom/ps. v m/s -> 0.01v Å/ps
-compute xMax all reduce max x #angstrom
-variable cellLength equal $(c_xMax) #angstrom
-variable simDur equal cellLength/waveVel #ps
+variable cellLength equal $(c_xMax)
+variable simDur equal ${cellLength}/${waveVel} #ps
 variable last equal floor(${simDur}/dt) #timesteps
+
 #the extra output file below should be processed by using OVITO
 ###正弦波を導入する。同位相なら$A,逆位相なら$B
 fix 2 d1 move variable v_myx NULL NULL v_myv NULL NULL
