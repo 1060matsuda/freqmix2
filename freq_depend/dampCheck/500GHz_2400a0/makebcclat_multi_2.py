@@ -30,7 +30,7 @@ N_X =  int(N_BUF*2/3)
 #detector location
 N_X_D = int(N_BUF/3)
 
-#N_BIG is set when you place atomic more layers right beside the buffer kayer.
+#N_BIG is set when you place atomic more layers right beside the buffer layer.
 #Currently not used; N_BIG-N_BUF=0 is required. 
 N_BIG = N_BUF
 
@@ -71,7 +71,8 @@ surf1 = [0.5*LAT_CONST,0.5*LAT_CONST,0.5*LAT_CONST]
 size_x = (DIST_X * (N_BIG+indent*2)) * (1.0 + STRAIN_X)
 size_y = (DIST_Y * N_Y) * (1.0 + STRAIN_Y)
 size_z = (DIST_Z * N_Z) * (1.0 + STRAIN_Z)
-
+rightend_x=(DIST_X * (N_BIG+indent)) * (1.0 + STRAIN_X)
+leftend_x=-DIST_X*indent
 
 # the function below creates the list of atoms in perfect crystal
 # Each atom has the list of:
@@ -91,7 +92,7 @@ def make_perfect():
 
     count = 0
     # make perfect lattice
-    for ix in range(indent,N_BIG+indent):
+    for ix in range(0,N_BIG):
         for iy in range(N_Y):
             for iz in range(N_Z): 
                 if True:
@@ -101,7 +102,7 @@ def make_perfect():
                     perfect[count] = [count+1 ,surf1[0]+ix*LAT_CONST ,surf1[1]+iy*LAT_CONST ,surf1[2]+iz*LAT_CONST ,len(XDArray)+2, 1,surf1[1]+(iy-N_Y)*LAT_CONST,surf1[2]+(iz-N_Z)*LAT_CONST]
                     count +=1
                 for arrayNum in range(len(XDArray)):
-                    if int(ix - indent)  == XDArray[arrayNum]:
+                    if int(ix)  == XDArray[arrayNum]:
                         perfect[count-2][4] = arrayNum+1                        
                         perfect[count-1][4] = arrayNum+1                
 """                
@@ -228,7 +229,7 @@ def name(type_num):
     #f.write("%d atoms\n" % perfect_num)
     f.write("\n")
     f.write("%d atom types\n" % type_num)
-    f.write("0 %12.6f xlo xhi\n" % size_x)
+    f.write("%12.6f %12.6f xlo xhi\n" % (leftend_x, rightend_x))
     f.write("0 %12.6f ylo yhi\n" % size_y)
     f.write("0 %12.6f zlo zhi\n" % size_z)
     f.write("\n")
